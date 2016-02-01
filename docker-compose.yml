@@ -1,0 +1,13 @@
+main:
+  image: php:5.6-apache
+  ports:
+    - "80"
+  volumes:
+    - ./main:/var/www/html
+
+iframe:
+  image: php:5.6-apache
+  ports:
+    - "9002:80"
+  volumes:
+    - ./iframe:/var/www/html
