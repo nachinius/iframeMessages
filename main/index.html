@@ -4,11 +4,37 @@
     <body>
       
       <script type="text/javascript">
+        window.addEventListener("message", receiveMessage, false);
+
+        function receiveMessage(event)
+        {
+          var origin = event.origin || event.originalEvent.origin; // For Chrome, the origin property is in the event.originalEvent object.
+          if (origin !== "http://b.dev:9002") {
+            alert("rejected a call b/c is not from b.dev");
+            console.log(' bad message received:  ' + event.data,event);
+            return;
+          }
+
+          console.log('GOOD message received:  ' + event.data,event);
+          debugger;
+        }
+
+        function register() {
+          console.log('hitting');
+          var iframe = document.getElementById('myIframe').contentWindow;
+          iframe.postMessage("hola iframe","http://b.dev:9002");
+        }
+
+
       </script>
       
       <h1>main</h1>
       <div>
-        <iframe seamless = "seamless"  src="http://b.dev:9002/index.html" name="iframe" height="400px" width="400px"></iframe>
+        <button type="button" onclick="register();">Register</button>
+        <h3>Iframe on b.dev</h3>
+        <iframe id="myIframe" seamless = "seamless"  src="http://b.dev:9002/index.html" name="iframe" height="400px" width="400px"></iframe>
+        <h3>Iframe2 on c.dev</h3>
+        <iframe seamless = "seamless"  src="http://c.dev:9002/index.html" name="iframe2" height="400px" width="400px"></iframe>
       </div>
     </body>
 </html>

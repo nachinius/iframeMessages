@@ -4,9 +4,32 @@
     <body>
 
       <script type="text/javascript">
+        var mypostMessage;
+        var myorigin;
+        var origin = "http://a.dev:32777"; 
+        window.addEventListener('message',function(event) {
+          if(event.origin !== origin) {
+            alert("bad origin");
+            return;
+          }
+          mypostMessage = function(a) {
+            event.source.postMessage("loteria "+a,event.origin);
+          }
+          event.source.postMessage("bingo",event.origin);
+          myorigin = event.origin;
+          console.log('message received:  ' + event.data,event);
+        });
+
+        function sendMessage() {
+          mypostMessage("hello from iframe");
+        }
+        
+        
       </script>
 
       <h1> Iframe</h1>
-      <p>Nbienadfasdf</h1>
+      <p></p>
+      <input onclick="sendMessage();" type="button" value="Submit"/>
+
     </body>
 </html>
